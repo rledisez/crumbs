@@ -6,6 +6,7 @@
 	import ImageLightbox from './ImageLightbox.svelte';
 	import SharingIndicator from './SharingIndicator.svelte';
 	import type { Note } from '$lib/types/index.js';
+	import { getPreferences } from '$lib/stores/preferences.svelte.js';
 	import Undo2 from 'lucide-svelte/icons/undo-2';
 	import Trash2 from 'lucide-svelte/icons/trash-2';
 	import Bookmark from 'lucide-svelte/icons/bookmark';
@@ -28,6 +29,8 @@
 	}
 
 	let { note, onEdit, fullHeight = false }: Props = $props();
+
+	const prefs = $derived(getPreferences());
 
 	$effect(() => {
 		cardStyle = `background-color: ${getNoteColor(note.color, getIsDarkMode())}`;
@@ -126,6 +129,16 @@
 			</button>
 		{/if}
 	</div>
+
+	{#if prefs.separateShares}
+		<div class="mb-1.5 flex gap-1">
+			{#if note.isOwner === false}
+				<span class="rounded-sm bg-[var(--primary)]/10 border border-[var(--primary)]/20 px-1.5 py-0.5 text-[10px] font-semibold text-[var(--primary)] uppercase tracking-wider">Shared with me</span>
+			{:else if note.isShared}
+				<span class="rounded-sm bg-[var(--text-muted)]/10 border border-[var(--border-subtle)] px-1.5 py-0.5 text-[10px] font-semibold text-[var(--text-muted)] uppercase tracking-wider">Shared by me</span>
+			{/if}
+		</div>
+	{/if}
 
 	{#if note.title}
 		<h3 class="mb-2 text-sm font-semibold text-[var(--text)]">{note.title}</h3>

@@ -6,6 +6,7 @@ import { extractTags } from '$lib/utils/tags.js';
 
 export const notes = writable<Note[]>([]);
 export const currentFilter = writable<NoteFilter>('all');
+export const currentShareFilter = writable<'my' | 'shared' | null>(null);
 export const selectedTag = writable<string | null>(null);
 export const notesLoaded = writable(false);
 export const searchQuery = writable<string>('');
@@ -40,8 +41,8 @@ notes.subscribe(($notes) => {
 });
 
 export const filteredNotes = derived(
-	[notes, selectedTag, currentFilter, searchQuery, searchResults],
-	([$notes, $selectedTag, $filter, $searchQuery, $searchResults]) => {
+	[notes, selectedTag, currentFilter, currentShareFilter, searchQuery, searchResults],
+	([$notes, $selectedTag, $filter, $shareFilter, $searchQuery, $searchResults]) => {
 		let result = $searchQuery.trim() ? $searchResults : $notes;
 		if ($filter === 'all') {
 			result = result.filter((n) => !n.trashed && !n.archived);
@@ -49,6 +50,11 @@ export const filteredNotes = derived(
 			result = result.filter((n) => n.archived && !n.trashed);
 		} else if ($filter === 'trashed') {
 			result = result.filter((n) => n.trashed);
+		}
+		if ($shareFilter === 'my') {
+			result = result.filter((n) => n.isOwner !== false && !n.isShared);
+		} else if ($shareFilter === 'shared') {
+			result = result.filter((n) => n.isOwner === false || n.isShared);
 		}
 		if ($selectedTag) {
 			result = result.filter((n) => n.tags?.includes($selectedTag));

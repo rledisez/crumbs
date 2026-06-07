@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { allTags } from '$lib/stores/notes.js';
-	import { StickyNote, Archive, Trash2, Tag, Settings } from 'lucide-svelte';
+	import { StickyNote, Archive, Trash2, Tag, Settings, Users } from 'lucide-svelte';
+	import { getPreferences } from '$lib/stores/preferences.svelte.js';
 
 	interface Props {
 		open: boolean;
@@ -10,17 +11,28 @@
 
 	let { open, onClose }: Props = $props();
 
+	const prefs = $derived(getPreferences());
+
 	function closeMobile() {
 		if (window.matchMedia('(max-width: 1023px)').matches) {
 			onClose?.();
 		}
 	}
 
-	const navItems = [
-		{ href: '/', label: 'Crumbs', icon: StickyNote, match: (p: string) => p === '/' },
-		{ href: '/archive', label: 'Archive', icon: Archive, match: (p: string) => p === '/archive' },
-		{ href: '/trash', label: 'Trash', icon: Trash2, match: (p: string) => p === '/trash' }
-	];
+	const navItems = $derived(
+		prefs.separateShares
+			? [
+					{ href: '/', label: 'My Crumbs', icon: StickyNote, match: (p: string) => p === '/' },
+					{ href: '/shared', label: 'Shared Crumbs', icon: Users, match: (p: string) => p === '/shared' },
+					{ href: '/archive', label: 'Archive', icon: Archive, match: (p: string) => p === '/archive' },
+					{ href: '/trash', label: 'Trash', icon: Trash2, match: (p: string) => p === '/trash' }
+				]
+			: [
+					{ href: '/', label: 'Crumbs', icon: StickyNote, match: (p: string) => p === '/' },
+					{ href: '/archive', label: 'Archive', icon: Archive, match: (p: string) => p === '/archive' },
+					{ href: '/trash', label: 'Trash', icon: Trash2, match: (p: string) => p === '/trash' }
+				]
+	);
 </script>
 
 {#if open}

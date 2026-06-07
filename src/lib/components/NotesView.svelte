@@ -2,7 +2,7 @@
 	import NoteGrid from '$lib/components/NoteGrid.svelte';
 	import NoteEditor from '$lib/components/NoteEditor.svelte';
 	import TagFilter from '$lib/components/TagFilter.svelte';
-	import { pinnedNotes, unpinnedNotes, selectedTag, currentFilter, notes, notesLoaded, loadNotes, updateSortOrders } from '$lib/stores/notes.js';
+	import { pinnedNotes, unpinnedNotes, selectedTag, currentFilter, currentShareFilter, notes, notesLoaded, loadNotes, updateSortOrders } from '$lib/stores/notes.js';
 	import { onMount } from 'svelte';
 	import { replaceState } from '$app/navigation';
 	import type { Note, NoteFilter } from '$lib/types/index.js';
@@ -13,9 +13,10 @@
 	interface Props {
 		filter: NoteFilter;
 		tag?: string | null;
+		shareFilter?: 'my' | 'shared' | null;
 	}
 
-	let { filter, tag = null }: Props = $props();
+	let { filter, tag = null, shareFilter = null }: Props = $props();
 
 	let editingNote: Note | null = $state(null);
 	let showNewNote = $state(false);
@@ -25,6 +26,7 @@
 	$effect(() => {
 		currentFilter.set(filter);
 		selectedTag.set(tag);
+		currentShareFilter.set(shareFilter);
 		loadNotes(filter);
 	});
 
@@ -61,7 +63,7 @@
 	});
 </script>
 
-{#if filter === 'all' && !tag}
+{#if filter === 'all' && !tag && shareFilter !== 'shared'}
 	<div class="mx-auto mb-6 hidden max-w-xl md:block">
 		<div class="flex cursor-pointer items-center gap-0 rounded-sm border border-dashed border-[var(--border-subtle)] bg-[var(--bg-surface)] transition-colors hover:border-[var(--primary)]">
 			<button
@@ -130,7 +132,13 @@
 			{:else if tag}
 				No crumbs with tag #{tag}
 			{:else}
-				No crumbs yet
+				{#if shareFilter === 'my'}
+					No personal crumbs yet
+				{:else if shareFilter === 'shared'}
+					No shared crumbs yet
+				{:else}
+					No crumbs yet
+				{/if}
 			{/if}
 		</p>
 	</div>

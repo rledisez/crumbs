@@ -10,6 +10,7 @@ export interface UserPreferences {
 	notifyOnShare: boolean;
 	notifyOnCollabRemoved: boolean;
 	notifyOnNoteDeleted: boolean;
+	separateShares: boolean;
 }
 
 export const DEFAULT_PREFERENCES: UserPreferences = {
@@ -21,7 +22,8 @@ export const DEFAULT_PREFERENCES: UserPreferences = {
 	sidebarDefaultState: 'open',
 	notifyOnShare: true,
 	notifyOnCollabRemoved: true,
-	notifyOnNoteDeleted: true
+	notifyOnNoteDeleted: true,
+	separateShares: false
 };
 
 export const BOOLEAN_PREF_KEYS: ReadonlySet<keyof UserPreferences> = new Set([
@@ -29,5 +31,6 @@ export const BOOLEAN_PREF_KEYS: ReadonlySet<keyof UserPreferences> = new Set([
 	'hidePreviews',
 	'notifyOnShare',
 	'notifyOnCollabRemoved',
-	'notifyOnNoteDeleted'
+	'notifyOnNoteDeleted',
+	'separateShares'
 ]);

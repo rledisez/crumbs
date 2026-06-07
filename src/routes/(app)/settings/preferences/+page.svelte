@@ -94,6 +94,19 @@
 		<label for="sidebar-default" class="text-sm text-[var(--text)]">Start with sidebar collapsed</label>
 	</div>
 
+	<!-- Separate shares -->
+	<div class="flex items-center gap-3">
+		<input
+			type="checkbox"
+			id="separate-shares"
+			checked={prefs.separateShares}
+			onchange={() => updatePreference('separateShares', !prefs.separateShares)}
+			class="h-4 w-4 rounded-sm"
+			data-testid="pref-separate-shares"
+		/>
+		<label for="separate-shares" class="text-sm text-[var(--text)]">Separate personal crumbs and shared crumbs in sidebar</label>
+	</div>
+
 	<!-- Email notifications -->
 	<div class="space-y-3">
 		<span class="block text-sm font-medium text-[var(--text)]">Email notifications</span>
