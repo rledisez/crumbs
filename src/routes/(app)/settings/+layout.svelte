@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { User, Cpu, ShieldCheck, SlidersHorizontal, Info } from 'lucide-svelte';
+	import { User, Cpu, ShieldCheck, SlidersHorizontal, Info, Download } from 'lucide-svelte';
 
 	let { data, children } = $props();
 	let pathname = $derived(page.url.pathname);
@@ -56,6 +56,16 @@
 						</a>
 					</li>
 				{/if}
+				<li>
+					<a
+						href="/settings/import-export"
+						class="flex items-center gap-2 rounded-sm px-3 py-2 text-sm whitespace-nowrap transition-colors {pathname === '/settings/import-export' ? 'bg-[var(--primary)]/15 text-[var(--primary)] font-medium' : 'text-[var(--text)] hover:bg-[var(--bg-base)]'}"
+						data-testid="settings-nav-import-export"
+					>
+						<Download size={16} />
+						Import / Export
+					</a>
+				</li>
 				<li>
 					<a
 						href="/settings/about"

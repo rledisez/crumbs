@@ -35,9 +35,12 @@
 	import ListX from 'lucide-svelte/icons/list-x';
 	import Archive from 'lucide-svelte/icons/archive';
 	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
+	import FileDown from 'lucide-svelte/icons/file-down';
 	import { parseChecklist, serializeChecklist } from '$lib/utils/checklist.js';
 	import { mergeContent } from '$lib/utils/content-merge.js';
 	import { tooltip } from '$lib/utils/tooltip.js';
+	import { exportNote } from '$lib/utils/import-export.js';
+	import { showToast } from '$lib/stores/toast.js';
 
 	interface Props {
 		note: Note | null;
@@ -563,6 +566,35 @@
 		}
 	}
 
+	async function handleExportNote() {
+		if (currentlyNew || !noteId) return;
+
+		const noteToExport: Note = {
+			id: noteId,
+			title,
+			content,
+			color,
+			checklistMode,
+			attachments: attachmentsList,
+			pinned: note?.pinned ?? false,
+			archived: note?.archived ?? false,
+			trashed: note?.trashed ?? false,
+			trashedAt: note?.trashedAt ?? null,
+			sortOrder: note?.sortOrder ?? 0,
+			createdAt: note?.createdAt ?? new Date(),
+			updatedAt: new Date(),
+			version: note?.version ?? 1
+		};
+
+		try {
+			await exportNote(noteToExport);
+			showToast('Note exported successfully!', 'success');
+		} catch (err) {
+			console.error('Export failed:', err);
+			showToast('Failed to export note', 'error');
+		}
+	}
+
 	function deleteCheckedItems() {
 		const items = parseChecklist(content).filter((i) => !i.checked);
 		content = serializeChecklist(items);
@@ -871,6 +903,18 @@
 				>
 					<History class="h-4 w-4 {showHistory ? 'text-[var(--primary)]' : ''}" />
 					Version history
+				</button>
+			{/if}
+
+			<!-- Export -->
+			{#if !currentlyNew}
+				<button
+					onclick={() => { handleExportNote(); showOverflowMenu = false; }}
+					class="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-[var(--text)] hover:bg-[var(--border)]/10"
+					data-testid="export-note-btn"
+				>
+					<FileDown class="h-4 w-4" />
+					Export as markdown
 				</button>
 			{/if}
 
