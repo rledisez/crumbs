@@ -8,6 +8,7 @@ describe('preferences defaults', () => {
 			defaultNoteMode: 'richtext',
 			defaultNoteColor: 'default',
 			hideFooter: false,
+			hidePreviews: false,
 			sidebarDefaultState: 'open',
 			notifyOnShare: true,
 			notifyOnCollabRemoved: true,
@@ -17,6 +18,7 @@ describe('preferences defaults', () => {
 
 	it('should identify boolean preference keys', () => {
 		expect(BOOLEAN_PREF_KEYS.has('hideFooter')).toBe(true);
+		expect(BOOLEAN_PREF_KEYS.has('hidePreviews')).toBe(true);
 		expect(BOOLEAN_PREF_KEYS.has('notifyOnShare')).toBe(true);
 		expect(BOOLEAN_PREF_KEYS.has('notifyOnCollabRemoved')).toBe(true);
 		expect(BOOLEAN_PREF_KEYS.has('notifyOnNoteDeleted')).toBe(true);

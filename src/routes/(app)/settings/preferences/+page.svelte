@@ -68,6 +68,19 @@
 		<label for="hide-footer" class="text-sm text-[var(--text)]">Hide footer</label>
 	</div>
 
+	<!-- Hide previews -->
+	<div class="flex items-center gap-3">
+		<input
+			type="checkbox"
+			id="hide-previews"
+			checked={prefs.hidePreviews}
+			onchange={() => updatePreference('hidePreviews', !prefs.hidePreviews)}
+			class="h-4 w-4 rounded-sm"
+			data-testid="pref-hide-previews"
+		/>
+		<label for="hide-previews" class="text-sm text-[var(--text)]">Hide crumb previews</label>
+	</div>
+
 	<!-- Sidebar default state -->
 	<div class="flex items-center gap-3">
 		<input

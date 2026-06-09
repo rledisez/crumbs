@@ -79,7 +79,7 @@
 	data-note-id={note.id}
 >
 	<!-- Thumbnail strip (featured images only) -->
-	{#if featuredAttachments.length > 0}
+	{#if featuredAttachments.length > 0 && !prefs.hidePreviews}
 		<div class="-mx-4 -mt-4 mb-3 flex overflow-hidden rounded-t-sm max-sm:rounded-none" data-testid="card-thumbnails">
 			{#each featuredAttachments.slice(0, 3) as attachment}
 				<div class="relative min-w-0 flex-1">
@@ -131,32 +131,34 @@
 		<h3 class="mb-2 text-sm font-semibold text-[var(--text)]">{note.title}</h3>
 	{/if}
 
-	{#if note.checklistMode && checklistItems.length > 0}
-		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-		<ul class="space-y-2 mb-6" data-testid="note-checklist-preview"
-			onclick={(e) => { if ((e.target as HTMLElement).closest('a')) e.stopPropagation(); }}
-			onkeydown={(e) => { if ((e.target as HTMLElement).closest('a')) e.stopPropagation(); }}>
-			{#each sortedChecklistItems.slice(0, 8) as item}
-				<li class="flex items-start gap-2 text-sm {item.indented ? 'pl-4 ' : ''}{item.checked ? 'text-[var(--text-muted)] line-through' : 'text-[var(--text)]'}"
-					data-testid={item.indented ? 'card-checklist-child' : undefined}>
-					<input
-						type="checkbox"
-						checked={item.checked}
-						disabled
-						class="mt-0.5 h-3.5 w-3.5 shrink-0 rounded border-[var(--border-subtle)] text-[var(--primary)]"
-						data-testid="card-checklist-checkbox"
-					/>
-					<span class="break-words min-w-0">{@html linkifyText(item.text)}</span>
-				</li>
-			{/each}
-			{#if checklistItems.length > 8}
-				<li class="text-xs text-[var(--text-muted)]">+{checklistItems.length - 8} more</li>
-			{/if}
-		</ul>
-	{:else if note.content}
-		<div class="prose prose-sm line-clamp-6 max-w-none text-sm text-[var(--text-muted)]" data-testid="note-content-preview">
-			{@html renderedContent}
-		</div>
+	{#if !prefs.hidePreviews || !note.title}
+		{#if note.checklistMode && checklistItems.length > 0}
+			<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+			<ul class="space-y-2 mb-6" data-testid="note-checklist-preview"
+				onclick={(e) => { if ((e.target as HTMLElement).closest('a')) e.stopPropagation(); }}
+				onkeydown={(e) => { if ((e.target as HTMLElement).closest('a')) e.stopPropagation(); }}>
+				{#each sortedChecklistItems.slice(0, prefs.hidePreviews ? 1 : 8) as item}
+					<li class="flex items-start gap-2 text-sm {item.indented ? 'pl-4 ' : ''}{item.checked ? 'text-[var(--text-muted)] line-through' : 'text-[var(--text)]'}"
+						data-testid={item.indented ? 'card-checklist-child' : undefined}>
+						<input
+							type="checkbox"
+							checked={item.checked}
+							disabled
+							class="mt-0.5 h-3.5 w-3.5 shrink-0 rounded border-[var(--border-subtle)] text-[var(--primary)]"
+							data-testid="card-checklist-checkbox"
+						/>
+						<span class="break-words min-w-0 {prefs.hidePreviews ? 'line-clamp-1' : ''}">{@html linkifyText(item.text)}</span>
+					</li>
+				{/each}
+				{#if !prefs.hidePreviews && checklistItems.length > 8}
+					<li class="text-xs text-[var(--text-muted)]">+{checklistItems.length - 8} more</li>
+				{/if}
+			</ul>
+		{:else if note.content}
+			<div class="prose prose-sm {prefs.hidePreviews ? 'line-clamp-1' : 'line-clamp-6'} max-w-none text-sm text-[var(--text-muted)]" data-testid="note-content-preview">
+				{@html renderedContent}
+			</div>
+		{/if}
 	{/if}
 
 	<!-- Action buttons - show on hover -->

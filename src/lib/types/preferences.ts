@@ -5,6 +5,7 @@ export interface UserPreferences {
 	defaultNoteMode: 'richtext' | 'markdown';
 	defaultNoteColor: NoteColor;
 	hideFooter: boolean;
+	hidePreviews: boolean;
 	sidebarDefaultState: 'open' | 'collapsed';
 	notifyOnShare: boolean;
 	notifyOnCollabRemoved: boolean;
@@ -16,6 +17,7 @@ export const DEFAULT_PREFERENCES: UserPreferences = {
 	defaultNoteMode: 'richtext',
 	defaultNoteColor: 'default',
 	hideFooter: false,
+	hidePreviews: false,
 	sidebarDefaultState: 'open',
 	notifyOnShare: true,
 	notifyOnCollabRemoved: true,
@@ -24,6 +26,7 @@ export const DEFAULT_PREFERENCES: UserPreferences = {
 
 export const BOOLEAN_PREF_KEYS: ReadonlySet<keyof UserPreferences> = new Set([
 	'hideFooter',
+	'hidePreviews',
 	'notifyOnShare',
 	'notifyOnCollabRemoved',
 	'notifyOnNoteDeleted'
