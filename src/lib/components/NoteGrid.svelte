@@ -37,11 +37,11 @@
 
 {#if displayItems.length > 0}
 	{#if label}
-		<p class="mb-2 px-2 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">{label}</p>
+		<p class="mb-2 max-sm:px-0 sm:px-2 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">{label}</p>
 	{/if}
 	{#if draggable}
 		<div
-			class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+			class="grid grid-cols-1 gap-0 sm:gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-sm:-mx-4"
 			data-testid="note-grid"
 			use:dndzone={{ items: localItems, flipDurationMs, type: dndType, dropTargetStyle: {}, delayTouchStart: 400 }}
 			onconsider={handleConsider}
@@ -54,7 +54,7 @@
 			{/each}
 		</div>
 	{:else}
-		<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" data-testid="note-grid">
+		<div class="grid grid-cols-1 gap-0 sm:gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-sm:-mx-4" data-testid="note-grid">
 			{#each displayItems as note (note.id)}
 				<NoteCard {note} {onEdit} />
 			{/each}

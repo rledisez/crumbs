@@ -69,7 +69,7 @@
 
 <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
 <article
-	class="group relative cursor-pointer rounded-sm border border-[var(--border-subtle)] p-4 outline-none transition-all hover:border-[var(--primary)] shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] max-h-[17rem] overflow-hidden {fullHeight ? 'h-full' : ''}"
+	class="group relative cursor-pointer rounded-sm max-sm:rounded-none border border-[var(--border-subtle)] max-sm:border-x-0 max-sm:border-t-0 p-4 outline-none transition-all sm:hover:border-[var(--primary)] shadow-[var(--card-shadow)] max-sm:shadow-none hover:shadow-[var(--card-shadow-hover)] max-sm:hover:shadow-none max-h-[17rem] overflow-hidden {fullHeight ? 'h-full' : ''}"
 	style={cardStyle}
 	onclick={() => onEdit(note)}
 	onkeydown={(e) => e.key === 'Enter' && onEdit(note)}
@@ -80,7 +80,7 @@
 >
 	<!-- Thumbnail strip (featured images only) -->
 	{#if featuredAttachments.length > 0}
-		<div class="-mx-4 -mt-4 mb-3 flex overflow-hidden rounded-t-sm" data-testid="card-thumbnails">
+		<div class="-mx-4 -mt-4 mb-3 flex overflow-hidden rounded-t-sm max-sm:rounded-none" data-testid="card-thumbnails">
 			{#each featuredAttachments.slice(0, 3) as attachment}
 				<div class="relative min-w-0 flex-1">
 					<button
