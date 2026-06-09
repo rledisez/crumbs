@@ -158,7 +158,7 @@
 >
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
-		class="mx-4 w-full max-w-sm rounded-sm border border-[var(--border)] bg-[var(--bg-surface)] shadow-[var(--card-shadow)] animate-[pop-in_150ms_ease-out]"
+		class="mx-4 w-full max-w-sm rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] shadow-[var(--card-shadow)] animate-[pop-in_150ms_ease-out]"
 		onclick={(e) => e.stopPropagation()}
 		onkeydown={(e) => e.stopPropagation()}
 		data-testid="share-dialog"
@@ -168,7 +168,7 @@
 			<h2 class="text-sm font-semibold text-[var(--text)]">Share note</h2>
 			<button
 				onclick={onClose}
-				class="rounded-sm p-1 hover:bg-[var(--border)]/10"
+				class="rounded-full p-1 hover:bg-[var(--border-subtle)] text-[var(--text-muted)]"
 				title="Close"
 			>
 				<X class="h-4 w-4" />
@@ -178,7 +178,7 @@
 		<!-- Public link section -->
 		<div class="px-4 pt-3 pb-3" data-testid="public-link-section">
 			<div
-				class="rounded-sm border p-3 transition-colors {publicShareToken
+				class="rounded-xl border p-3 transition-colors {publicShareToken
 					? 'border-[var(--primary)] bg-[var(--primary)]/5'
 					: 'border-[var(--border-subtle)]'}"
 			>
@@ -190,14 +190,14 @@
 					<button
 						onclick={togglePublicShare}
 						disabled={togglingShare}
-						class="relative h-5 w-9 rounded-sm transition-colors {publicShareToken
+						class="relative h-5 w-9 rounded-full transition-colors {publicShareToken
 							? 'bg-[var(--primary)]'
 							: 'bg-[var(--border-subtle)]'}"
 						title={publicShareToken ? 'Disable public link' : 'Enable public link'}
 						data-testid="public-share-toggle"
 					>
 						<span
-							class="absolute top-0.5 h-4 w-4 rounded-sm bg-[var(--bg-surface)] shadow-[1px_1px_0px_var(--border-subtle)] transition-all {publicShareToken
+							class="absolute top-0.5 h-4 w-4 rounded-full bg-[var(--bg-surface)] shadow-[0_2px_4px_rgba(0,0,0,0.2)] transition-all {publicShareToken
 								? 'left-[1.125rem]'
 								: 'left-0.5'}"
 						></span>
@@ -206,13 +206,13 @@
 
 				{#if publicShareToken && shareUrl}
 					<div class="mt-2 flex items-center gap-1" data-testid="share-url-container">
-						<div class="flex min-w-0 flex-1 items-center gap-1.5 rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-2 py-1.5">
+						<div class="flex min-w-0 flex-1 items-center gap-1.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-base)] px-2 py-1.5">
 							<Link class="h-3 w-3 shrink-0 text-[var(--text-muted)]" />
 							<span class="truncate text-xs text-[var(--text-muted)]" data-testid="share-url-text">{shareUrl}</span>
 						</div>
 						<button
 							onclick={copyShareUrl}
-							class="shrink-0 rounded-sm border border-[var(--border-subtle)] p-1.5 hover:border-[var(--primary)] hover:bg-[var(--primary)]/5 transition-colors"
+							class="shrink-0 rounded-lg border border-[var(--border-subtle)] p-1.5 hover:border-[var(--primary)] hover:bg-[var(--primary)]/5 transition-colors"
 							title="Copy link"
 							data-testid="copy-share-url-btn"
 						>
@@ -232,19 +232,19 @@
 		<!-- Search input -->
 		<div class="relative px-4 pt-3">
 			<div class="relative">
-				<Search class="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-muted)]" />
+				<Search class="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-muted)]" />
 				<input
 					type="text"
 					placeholder="Search users..."
 					bind:value={searchQuery}
-					class="w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] py-2 pl-8 pr-3 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
+					class="w-full rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-base)] py-2 pl-8 pr-3 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
 					data-testid="share-search-input"
 				/>
 			</div>
 
 			<!-- Search results dropdown -->
 			{#if searchResults.length > 0}
-				<ul class="absolute left-4 right-4 z-10 mt-1 max-h-40 overflow-y-auto rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-surface)] shadow-[var(--card-shadow)]" data-testid="share-search-results">
+				<ul class="absolute left-4 right-4 z-10 mt-1 max-h-40 overflow-y-auto rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] shadow-[var(--card-shadow)]" data-testid="share-search-results">
 					{#each searchResults as user}
 						<li>
 							<button

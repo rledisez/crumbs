@@ -45,7 +45,7 @@
 {/if}
 
 <aside
-	class="fixed left-0 top-16 z-20 h-[calc(100vh-4rem)] w-64 transform border-r border-[var(--border)] bg-[var(--bg-surface)] transition-transform duration-200 {open ? 'translate-x-0' : '-translate-x-full'}"
+	class="fixed left-0 top-16 z-20 h-[calc(100vh-4rem)] w-64 transform border-r border-[var(--border-subtle)] bg-[var(--bg-surface)]/80 backdrop-blur-md transition-transform duration-200 {open ? 'translate-x-0' : '-translate-x-full'}"
 >
 	<nav class="p-2">
 		<ul class="space-y-1">
@@ -54,7 +54,7 @@
 					<a
 						href={item.href}
 						onclick={closeMobile}
-						class="flex w-full items-center gap-3 rounded-sm px-6 py-3 text-left text-sm transition-colors {item.match($page.url.pathname) ? 'bg-[var(--primary)]/15 text-[var(--primary)]' : 'text-[var(--text)] hover:bg-[var(--bg-base)]'}"
+						class="flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-left text-sm font-medium transition-colors {item.match($page.url.pathname) ? 'bg-[var(--primary)]/10 text-[var(--primary)]' : 'text-[var(--text)] hover:bg-[var(--bg-base)]/60'}"
 					>
 						<item.icon size={20} />
 						{item.label}
@@ -65,14 +65,14 @@
 
 		{#if $allTags.length > 0}
 			<div class="mt-6 border-t border-[var(--border-subtle)] pt-4">
-				<h3 class="px-6 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">Tags</h3>
+				<h3 class="px-4 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">Tags</h3>
 				<ul class="mt-2 space-y-1">
 					{#each $allTags as tag}
 						<li>
 							<a
 								href="/tag/{tag}"
 								onclick={closeMobile}
-								class="flex w-full items-center gap-3 rounded-sm px-6 py-2 text-left text-sm transition-colors {$page.url.pathname === `/tag/${tag}` ? 'bg-[var(--primary)]/15 text-[var(--primary)]' : 'text-[var(--text)] hover:bg-[var(--bg-base)]'}"
+								class="flex w-full items-center gap-3 rounded-lg px-4 py-2 text-left text-sm transition-colors {$page.url.pathname === `/tag/${tag}` ? 'bg-[var(--primary)]/10 text-[var(--primary)] font-medium' : 'text-[var(--text)] hover:bg-[var(--bg-base)]/60'}"
 							>
 								<Tag size={16} />
 								#{tag}
@@ -83,10 +83,10 @@
 			</div>
 		{/if}
 	</nav>
-	<div class="absolute bottom-0 left-0 w-full border-t border-[var(--border-subtle)]">
+	<div class="absolute bottom-0 left-0 w-full border-t border-[var(--border-subtle)] p-2">
 		<a
 			href="/settings"
-			class="flex w-full items-center gap-3 rounded-sm px-6 py-3 text-left text-sm transition-colors {$page.url.pathname.startsWith('/settings') ? 'bg-[var(--primary)]/15 text-[var(--primary)]' : 'text-[var(--text)] hover:bg-[var(--bg-base)]'}"
+			class="flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-left text-sm font-medium transition-colors {$page.url.pathname.startsWith('/settings') ? 'bg-[var(--primary)]/10 text-[var(--primary)]' : 'text-[var(--text)] hover:bg-[var(--bg-base)]/60'}"
 			onclick={closeMobile}
 			data-testid="settings-link"
 		>

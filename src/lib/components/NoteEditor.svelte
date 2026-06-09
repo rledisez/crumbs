@@ -620,7 +620,7 @@
 	{#if !closing}
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
-		class="relative flex h-full w-full flex-col md:overflow-hidden border-0 md:h-auto md:max-w-xl md:mx-4 lg:max-w-2xl md:rounded-sm md:border md:border-[var(--border)] md:shadow-[var(--card-shadow)] animate-[slide-up_150ms_ease-out] md:animate-[pop-in_150ms_ease-out]"
+		class="relative flex h-full w-full flex-col md:overflow-hidden border-0 md:h-auto md:max-w-xl md:mx-4 lg:max-w-2xl md:rounded-xl md:border md:border-[var(--border-subtle)] md:shadow-[var(--card-shadow)] animate-[slide-up_150ms_ease-out] md:animate-[pop-in_150ms_ease-out]"
 		style={bgStyle}
 		onkeydown={(e) => { e.stopPropagation(); handleKeydown(e); }}
 		data-testid="note-editor"
@@ -632,7 +632,7 @@
 			<!-- Mobile Back Button -->
 			<button
 				onclick={saveAndClose}
-				class="md:hidden rounded-sm p-2 text-[var(--text)] hover:bg-[var(--border)]/10 flex items-center shrink-0"
+				class="md:hidden rounded-lg p-2 text-[var(--text)] hover:bg-[var(--border-subtle)] flex items-center shrink-0"
 				aria-label="Back"
 			>
 				<ArrowLeft class="h-6 w-6" />
@@ -657,7 +657,7 @@
 			<button
 				bind:this={mobileOverflowBtnEl}
 				onclick={() => { showOverflowMenu = !showOverflowMenu; overflowAnchorEl = mobileOverflowBtnEl; }}
-				class="md:hidden rounded-sm p-2 hover:bg-[var(--border)]/10 text-[var(--text)] shrink-0"
+				class="md:hidden rounded-lg p-2 hover:bg-[var(--border-subtle)] text-[var(--text)] shrink-0"
 				data-testid="mobile-overflow-menu-btn"
 			>
 				<EllipsisVertical class="h-6 w-6" />
@@ -721,14 +721,14 @@
 				<div class="relative">
 					<button
 						onclick={() => (showColorPicker = !showColorPicker)}
-						class="rounded-sm p-2 hover:bg-[var(--border)]/10"
+						class="rounded-lg p-2 hover:bg-[var(--border-subtle)]"
 						use:tooltip={"Background color"}
 						data-testid="color-picker-toggle"
 					>
 						<Palette class="h-5 w-5 text-[var(--text-muted)]" />
 					</button>
 					{#if showColorPicker}
-						<div class="absolute left-0 bottom-full z-10 mb-2 w-[calc(100vw-4rem)] max-w-xs rounded-sm border border-[var(--border)] bg-[var(--bg-surface)] p-2">
+						<div class="absolute left-0 bottom-full z-10 mb-2 w-[calc(100vw-4rem)] max-w-xs rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-3 shadow-[var(--card-shadow)]">
 							<ColorPicker selected={color} onSelect={handleColorSelect} />
 						</div>
 					{/if}
@@ -737,7 +737,7 @@
 				<!-- Image attachment toggle -->
 				<button
 					onclick={toggleImageUpload}
-					class="rounded-sm p-2 hover:bg-[var(--border)]/10"
+					class="rounded-lg p-2 hover:bg-[var(--border-subtle)]"
 					use:tooltip={"Attachments"}
 					data-testid="image-toggle"
 				>
@@ -748,7 +748,7 @@
 				{#if isOwner}
 					<button
 						onclick={toggleShareDialog}
-						class="rounded-sm p-2 hover:bg-[var(--border)]/10"
+						class="rounded-lg p-2 hover:bg-[var(--border-subtle)]"
 						use:tooltip={"Share"}
 						data-testid="share-toggle"
 					>
@@ -761,7 +761,7 @@
 						{/if}
 					</button>
 				{:else if isShared}
-					<span class="flex items-center gap-1 rounded-sm p-2 text-[var(--text-muted)]" use:tooltip={"Shared note"}>
+					<span class="flex items-center gap-1 rounded-lg p-2 text-[var(--text-muted)]" use:tooltip={"Shared note"}>
 						<Users class="h-5 w-5" />
 					</span>
 				{/if}
@@ -770,7 +770,7 @@
 				{#if !currentlyNew}
 					<button
 						onclick={handleArchive}
-						class="rounded-sm p-2 hover:bg-[var(--border)]/10"
+						class="rounded-lg p-2 hover:bg-[var(--border-subtle)]"
 						use:tooltip={"Archive"}
 						data-testid="archive-note-btn"
 					>
@@ -782,7 +782,7 @@
 				<button
 					bind:this={desktopOverflowBtnEl}
 					onclick={() => { showOverflowMenu = !showOverflowMenu; overflowAnchorEl = desktopOverflowBtnEl; }}
-					class="rounded-sm p-2 hover:bg-[var(--border)]/10"
+					class="rounded-lg p-2 hover:bg-[var(--border-subtle)]"
 					use:tooltip={"More"}
 					data-testid="overflow-menu-btn"
 				>
@@ -792,7 +792,7 @@
 
 			<button
 				onclick={saveAndClose}
-				class="hidden md:block rounded-sm px-4 py-1 text-sm font-medium text-[var(--text)] hover:bg-[var(--border)]/10"
+				class="hidden md:block rounded-lg px-4 py-1.5 text-sm font-medium text-[var(--text)] hover:bg-[var(--border-subtle)]"
 				data-testid="close-editor-btn"
 			>
 				Close
@@ -806,7 +806,7 @@
 		{@const isMobileTrigger = overflowAnchorEl === mobileOverflowBtnEl}
 		<div
 			bind:this={overflowMenuEl}
-			class="fixed z-50 w-max whitespace-nowrap rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-surface)] py-1 shadow-[var(--card-shadow)]"
+			class="fixed z-50 w-max whitespace-nowrap rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] py-1.5 shadow-[var(--card-shadow)]"
 			style={isMobileTrigger ? `top: ${rect.bottom + 4}px; right: ${window.innerWidth - rect.right}px;` : `bottom: ${window.innerHeight - rect.top + 4}px; right: ${window.innerWidth - rect.right}px;`}
 			data-testid="overflow-menu"
 		>

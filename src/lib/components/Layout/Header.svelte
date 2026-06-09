@@ -12,7 +12,7 @@
 	let mobileSearchOpen = $state(false);
 </script>
 
-<header class="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-[var(--border)] bg-[var(--bg-surface)] px-4">
+<header class="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)]/80 backdrop-blur-md px-4">
 	{#if mobileSearchOpen}
 		<!-- Mobile expanded search -->
 		<div class="flex flex-1 items-center gap-2 lg:hidden">
@@ -21,7 +21,7 @@
 	{:else}
 		<button
 			onclick={onMenuToggle}
-			class="rounded-sm p-2 hover:bg-[var(--border)]/10"
+			class="rounded-lg p-2 hover:bg-[var(--border-subtle)]"
 			aria-label="Toggle sidebar"
 		>
 			<Menu class="h-6 w-6 text-[var(--text)]" />
@@ -29,7 +29,7 @@
 
 		<div class="flex items-center gap-2">
 			<img src="/favicon-96x96.png" alt="" class="h-8 w-8" />
-			<h1 class="font-['Press_Start_2P'] text-lg text-[var(--primary)]">Crumbs</h1>
+			<h1 class="text-xl font-bold tracking-tight text-[var(--primary)]">Crumbs</h1>
 		</div>
 
 		<!-- Desktop search bar -->
@@ -40,7 +40,7 @@
 		<!-- Mobile search icon -->
 		<button
 			onclick={() => (mobileSearchOpen = true)}
-			class="ml-auto rounded-sm p-2 hover:bg-[var(--border)]/10 lg:hidden"
+			class="ml-auto rounded-lg p-2 hover:bg-[var(--border-subtle)] lg:hidden"
 			aria-label="Search"
 		>
 			<Search class="h-5 w-5 text-[var(--text)]" />

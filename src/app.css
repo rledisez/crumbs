@@ -1,65 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
 :root {
-	--bg-base: #f0e6d3;
-	--bg-surface: #faf5eb;
-	--primary: #C8860A;
-	--primary-hover: #E8A020;
-	--text: #1a1a2e;
-	--text-muted: #6b6272;
-	--border: #1a1a2e;
-	--border-subtle: #d4cabb;
-	--destructive: #a63d2f;
-	--error-bg: #f5e0db;
-	--error-border: #d4a69e;
-	--error-text: #8b2e1f;
-	--success-bg: #dce8d4;
-	--success-text: #3a5a2e;
-	--card-shadow: 2px 2px 0px var(--border-subtle);
-	--card-shadow-hover: 3px 3px 0px var(--primary);
-	--grid-dot: #1a1a2e;
+	--bg-base: #f5f5f7;
+	--bg-surface: #ffffff;
+	--primary: #007AFF;
+	--primary-hover: #0056b3;
+	--text: #1c1c1e;
+	--text-muted: #8e8e93;
+	--border: #c7c7cc;
+	--border-subtle: #e5e5ea;
+	--destructive: #ff3b30;
+	--error-bg: #ffe5e5;
+	--error-border: #ffb3b3;
+	--error-text: #ff3b30;
+	--success-bg: #e5fbe5;
+	--success-text: #34c759;
+	--card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+	--card-shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="dark"] {
-	--bg-base: #1a1715;
-	--bg-surface: #2a2520;
-	--text: #e8dcc8;
-	--text-muted: #9a8e7e;
-	--border: #e8dcc8;
-	--border-subtle: #3a3530;
-	--destructive: #d4604e;
-	--error-bg: #3a2020;
-	--error-border: #5a3030;
-	--error-text: #e8a090;
-	--success-bg: #203020;
-	--success-text: #90c880;
-	--card-shadow: 2px 2px 0px var(--border-subtle);
-	--card-shadow-hover: 3px 3px 0px var(--primary);
-	--grid-dot: #e8dcc8;
+	--bg-base: #1c1c1e;
+	--bg-surface: #2c2c2e;
+	--text: #f2f2f7;
+	--text-muted: #8e8e93;
+	--border: #48484a;
+	--border-subtle: #38383a;
+	--destructive: #ff453a;
+	--error-bg: #2c1514;
+	--error-border: #4c1d1a;
+	--error-text: #ff453a;
+	--success-bg: #142c16;
+	--success-text: #30d158;
+	--card-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	--card-shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 html, body {
-	font-family: 'JetBrains Mono', monospace;
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 	accent-color: var(--primary);
 	overscroll-behavior-y: none;
-}
-
-body.editor-scroll-locked {
-	overflow: hidden;
-}
-
-body::before {
-	content: '';
-	position: fixed;
-	inset: 0;
-	pointer-events: none;
-	opacity: 0.03;
-	background-image: repeating-conic-gradient(var(--grid-dot) 0% 25%, transparent 0% 50%);
-	background-size: 4px 4px;
-	z-index: 0;
 }
 
 /* Editor entrance animations */
@@ -238,12 +221,12 @@ body::before {
 	position: fixed;
 	z-index: 9999;
 	padding: 0.25rem 0.5rem;
-	font-family: 'JetBrains Mono', monospace;
+	font-family: inherit;
 	font-size: 0.7rem;
 	line-height: 1.2;
 	color: var(--bg-surface);
 	background: var(--text);
-	border-radius: 2px;
+	border-radius: 6px;
 	pointer-events: none;
 	white-space: nowrap;
 	opacity: 0;

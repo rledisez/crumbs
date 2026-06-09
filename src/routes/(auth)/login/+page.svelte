@@ -50,16 +50,16 @@
 	<title>Login - Crumbs</title>
 </svelte:head>
 
-<div class="w-full max-w-sm rounded-sm border border-[var(--border)] bg-[var(--bg-surface)] p-8 shadow-[var(--card-shadow)]">
+<div class="w-full max-w-sm rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-8 shadow-[var(--card-shadow)]">
 	<div class="mb-6 text-center">
 		<img src="/favicon-96x96.png" alt="Crumbs" class="mx-auto h-12 w-12" />
-		<h1 class="font-['Press_Start_2P'] text-xl text-[var(--primary)]">Crumbs</h1>
+		<h1 class="text-2xl font-bold tracking-tight text-[var(--primary)]">Crumbs</h1>
 		<p class="mt-2 text-sm text-[var(--text-muted)]">Sign in to continue</p>
 	</div>
 
 	<form onsubmit={handleLogin}>
 		{#if errorMsg}
-			<div class="mb-4 rounded-sm border border-[var(--error-border)] bg-[var(--error-bg)] p-3 text-sm text-[var(--error-text)]" data-testid="error-message">
+			<div class="mb-4 rounded-lg border border-[var(--error-border)] bg-[var(--error-bg)] p-3 text-sm text-[var(--error-text)]" data-testid="error-message">
 				{errorMsg}
 			</div>
 		{/if}
@@ -68,7 +68,7 @@
 			type="email"
 			bind:value={email}
 			placeholder="Email"
-			class="mb-3 w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-3 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
+			class="mb-3 w-full rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-3 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
 			data-testid="email-input"
 			required
 		/>
@@ -77,7 +77,7 @@
 			type="password"
 			bind:value={password}
 			placeholder="Password"
-			class="mb-4 w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-3 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
+			class="mb-4 w-full rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-3 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
 			data-testid="password-input"
 			required
 		/>
@@ -85,7 +85,7 @@
 		<button
 			type="submit"
 			disabled={loading}
-			class="w-full rounded-sm bg-[var(--primary)] py-3 text-sm font-medium text-white transition-colors hover:bg-[var(--primary-hover)] disabled:opacity-50"
+			class="w-full rounded-lg bg-[var(--primary)] py-3 text-sm font-semibold text-white transition-colors hover:bg-[var(--primary-hover)] disabled:opacity-50"
 			data-testid="login-btn"
 		>
 			{loading ? 'Signing in...' : 'Sign in'}

@@ -1,33 +1,33 @@
 import type { NoteColor } from '$lib/types/index.js';
 
 export const NOTE_COLORS: Record<NoteColor, { bg: string; label: string }> = {
-	default: { bg: '#faf5eb', label: 'Default' },
-	coral: { bg: '#faafa8', label: 'Coral' },
-	peach: { bg: '#f39f76', label: 'Peach' },
-	sand: { bg: '#fff8b8', label: 'Sand' },
-	mint: { bg: '#e2f6d3', label: 'Mint' },
-	sage: { bg: '#b4ddd3', label: 'Sage' },
-	fog: { bg: '#d4e4ed', label: 'Fog' },
-	storm: { bg: '#aeccdc', label: 'Storm' },
-	dusk: { bg: '#d3bfdb', label: 'Dusk' },
-	blossom: { bg: '#f6e2dd', label: 'Blossom' },
-	clay: { bg: '#e9e3d4', label: 'Clay' },
-	chalk: { bg: '#efeff1', label: 'Chalk' }
+	default: { bg: '#ffffff', label: 'Default' },
+	coral: { bg: '#ffd3d1', label: 'Coral' },
+	peach: { bg: '#ffe4d1', label: 'Peach' },
+	sand: { bg: '#fff7c2', label: 'Sand' },
+	mint: { bg: '#dcf8e6', label: 'Mint' },
+	sage: { bg: '#d2f2ed', label: 'Sage' },
+	fog: { bg: '#d6eaff', label: 'Fog' },
+	storm: { bg: '#cce3ff', label: 'Storm' },
+	dusk: { bg: '#e8ddf5', label: 'Dusk' },
+	blossom: { bg: '#ffe0eb', label: 'Blossom' },
+	clay: { bg: '#f2ebe1', label: 'Clay' },
+	chalk: { bg: '#f1f1f5', label: 'Chalk' }
 };
 
 export const NOTE_COLORS_DARK: Record<NoteColor, { bg: string; label: string }> = {
-	default: { bg: '#2a2520', label: 'Default' },
-	coral: { bg: '#4a2522', label: 'Coral' },
-	peach: { bg: '#4a3020', label: 'Peach' },
-	sand: { bg: '#3a3520', label: 'Sand' },
-	mint: { bg: '#2a3a22', label: 'Mint' },
-	sage: { bg: '#223a32', label: 'Sage' },
-	fog: { bg: '#222e3a', label: 'Fog' },
-	storm: { bg: '#1e2a35', label: 'Storm' },
-	dusk: { bg: '#352540', label: 'Dusk' },
-	blossom: { bg: '#3a2830', label: 'Blossom' },
-	clay: { bg: '#302e28', label: 'Clay' },
-	chalk: { bg: '#2e2e30', label: 'Chalk' }
+	default: { bg: '#2c2c2e', label: 'Default' },
+	coral: { bg: '#3d1a1a', label: 'Coral' },
+	peach: { bg: '#3d261a', label: 'Peach' },
+	sand: { bg: '#3a351a', label: 'Sand' },
+	mint: { bg: '#1a3d24', label: 'Mint' },
+	sage: { bg: '#1a3d36', label: 'Sage' },
+	fog: { bg: '#1a2c3d', label: 'Fog' },
+	storm: { bg: '#152433', label: 'Storm' },
+	dusk: { bg: '#2b1a3d', label: 'Dusk' },
+	blossom: { bg: '#3d1a2c', label: 'Blossom' },
+	clay: { bg: '#2a2722', label: 'Clay' },
+	chalk: { bg: '#262628', label: 'Chalk' }
 };
 
 export function getNoteColor(color: NoteColor, isDark: boolean): string {

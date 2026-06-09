@@ -72,7 +72,7 @@
 
 <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
 <article
-	class="group relative cursor-pointer rounded-sm max-sm:rounded-none border border-[var(--border-subtle)] max-sm:border-x-0 max-sm:border-t-0 p-4 outline-none transition-all sm:hover:border-[var(--primary)] shadow-[var(--card-shadow)] max-sm:shadow-none hover:shadow-[var(--card-shadow-hover)] max-sm:hover:shadow-none max-h-[17rem] overflow-hidden {fullHeight ? 'h-full' : ''}"
+	class="group relative cursor-pointer rounded-xl max-sm:rounded-none border border-[var(--border-subtle)] max-sm:border-x-0 max-sm:border-t-0 p-4 outline-none transition-all shadow-[var(--card-shadow)] max-sm:shadow-none hover:shadow-[var(--card-shadow-hover)] max-sm:hover:shadow-none max-h-[17rem] overflow-hidden {fullHeight ? 'h-full' : ''}"
 	style={cardStyle}
 	onclick={() => onEdit(note)}
 	onkeydown={(e) => e.key === 'Enter' && onEdit(note)}
@@ -83,7 +83,7 @@
 >
 	<!-- Thumbnail strip (featured images only) -->
 	{#if featuredAttachments.length > 0 && !prefs.hidePreviews}
-		<div class="-mx-4 -mt-4 mb-3 flex overflow-hidden rounded-t-sm max-sm:rounded-none" data-testid="card-thumbnails">
+		<div class="-mx-4 -mt-4 mb-3 flex overflow-hidden rounded-t-xl max-sm:rounded-none" data-testid="card-thumbnails">
 			{#each featuredAttachments.slice(0, 3) as attachment}
 				<div class="relative min-w-0 flex-1">
 					<button
@@ -102,7 +102,7 @@
 				</div>
 			{/each}
 			{#if featuredAttachments.length > 3}
-				<div class="absolute right-1 top-1 rounded-sm bg-black/60 px-1.5 py-0.5 text-xs font-medium text-white" data-testid="card-thumbnail-count">
+				<div class="absolute right-1 top-1 rounded bg-black/60 px-1.5 py-0.5 text-xs font-medium text-white" data-testid="card-thumbnail-count">
 					+{featuredAttachments.length - 3}
 				</div>
 			{/if}
@@ -121,7 +121,7 @@
 		{#if note.pinned}
 			<button
 				onclick={stop(() => togglePin(note.id, note.pinned))}
-				class="rounded-sm p-1 text-[var(--primary)] hover:bg-[var(--border)]/10"
+				class="rounded-full p-1 text-[var(--primary)] hover:bg-[var(--border-subtle)]"
 				use:tooltip={"Unpin"}
 				data-testid="pin-indicator"
 			>
@@ -133,9 +133,9 @@
 	{#if prefs.separateShares}
 		<div class="mb-1.5 flex gap-1">
 			{#if note.isOwner === false}
-				<span class="rounded-sm bg-[var(--primary)]/10 border border-[var(--primary)]/20 px-1.5 py-0.5 text-[10px] font-semibold text-[var(--primary)] uppercase tracking-wider">Shared with me</span>
+				<span class="rounded bg-[var(--primary)]/10 border border-[var(--primary)]/20 px-1.5 py-0.5 text-[10px] font-semibold text-[var(--primary)] uppercase tracking-wider">Shared with me</span>
 			{:else if note.isShared}
-				<span class="rounded-sm bg-[var(--text-muted)]/10 border border-[var(--border-subtle)] px-1.5 py-0.5 text-[10px] font-semibold text-[var(--text-muted)] uppercase tracking-wider">Shared by me</span>
+				<span class="rounded bg-[var(--text-muted)]/10 border border-[var(--border-subtle)] px-1.5 py-0.5 text-[10px] font-semibold text-[var(--text-muted)] uppercase tracking-wider">Shared by me</span>
 			{/if}
 		</div>
 	{/if}
@@ -157,7 +157,7 @@
 							type="checkbox"
 							checked={item.checked}
 							disabled
-							class="mt-0.5 h-3.5 w-3.5 shrink-0 rounded border-[var(--border-subtle)] text-[var(--primary)]"
+							class="mt-0.5 h-3.5 w-3.5 shrink-0 rounded-full border-[var(--border-subtle)] text-[var(--primary)]"
 							data-testid="card-checklist-checkbox"
 						/>
 						<span class="break-words min-w-0 {prefs.hidePreviews ? 'line-clamp-1' : ''}">{@html linkifyText(item.text)}</span>
@@ -179,7 +179,7 @@
 		{#if $currentFilter === 'trashed'}
 			<button
 				onclick={stop(() => restoreNote(note.id))}
-				class="rounded-sm p-1.5 hover:bg-[var(--border)]/10"
+				class="rounded-full p-1.5 hover:bg-[var(--border-subtle)] text-[var(--text)]"
 				use:tooltip={"Restore"}
 				data-testid="restore-btn"
 			>
@@ -187,7 +187,7 @@
 			</button>
 			<button
 				onclick={stop(() => deleteNote(note.id))}
-				class="rounded-sm p-1.5 hover:bg-[var(--border)]/10"
+				class="rounded-full p-1.5 hover:bg-[var(--border-subtle)] text-[var(--text)]"
 				use:tooltip={"Delete forever"}
 				data-testid="delete-forever-btn"
 			>
@@ -197,7 +197,7 @@
 			{#if !note.pinned}
 				<button
 					onclick={stop(() => togglePin(note.id, note.pinned))}
-					class="rounded-sm p-1.5 hover:bg-[var(--border)]/10"
+					class="rounded-full p-1.5 hover:bg-[var(--border-subtle)] text-[var(--text)]"
 					use:tooltip={"Pin"}
 					data-testid="pin-btn"
 				>
@@ -207,7 +207,7 @@
 			{#if $currentFilter === 'archived'}
 				<button
 					onclick={stop(() => unarchiveNote(note.id))}
-					class="rounded-sm p-1.5 hover:bg-[var(--border)]/10"
+					class="rounded-full p-1.5 hover:bg-[var(--border-subtle)] text-[var(--text)]"
 					use:tooltip={"Unarchive"}
 					data-testid="unarchive-btn"
 				>
@@ -216,7 +216,7 @@
 			{:else}
 				<button
 					onclick={stop(() => archiveNote(note.id))}
-					class="rounded-sm p-1.5 hover:bg-[var(--border)]/10"
+					class="rounded-full p-1.5 hover:bg-[var(--border-subtle)] text-[var(--text)]"
 					use:tooltip={"Archive"}
 					data-testid="archive-btn"
 				>
@@ -226,7 +226,7 @@
 			{#if note.isShared && !note.isOwner}
 				<button
 					onclick={stop(() => leaveNote(note.id))}
-					class="rounded-sm p-1.5 hover:bg-[var(--border)]/10"
+					class="rounded-full p-1.5 hover:bg-[var(--border-subtle)] text-[var(--text)]"
 					use:tooltip={"Leave note"}
 					data-testid="leave-btn"
 				>
@@ -235,7 +235,7 @@
 			{:else}
 				<button
 					onclick={stop(() => trashNote(note.id))}
-					class="rounded-sm p-1.5 hover:bg-[var(--border)]/10"
+					class="rounded-full p-1.5 hover:bg-[var(--border-subtle)] text-[var(--text)]"
 					use:tooltip={"Trash"}
 					data-testid="trash-btn"
 				>
