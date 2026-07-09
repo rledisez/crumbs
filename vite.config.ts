@@ -1,12 +1,47 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 import tailwindcss from '@tailwindcss/vite';
+import { existsSync, readFileSync } from 'node:fs';
+import type { ServerOptions } from 'node:https';
 import istanbul from 'vite-plugin-istanbul';
 import { defineConfig } from 'vite';
+
+function readRequiredSslFile(envName: string): Buffer {
+	const path = process.env[envName];
+
+	if (!path) {
+		throw new Error(`${envName} is required when SSL_ENABLED=true`);
+	}
+
+	if (!existsSync(path)) {
+		throw new Error(`${envName} points to a missing file: ${path}`);
+	}
+
+	return readFileSync(path);
+}
+
+function getHttpsConfig(): ServerOptions | undefined {
+	if (process.env.SSL_ENABLED !== 'true') {
+		return undefined;
+	}
+
+	return {
+		cert: readRequiredSslFile('SSL_CERT_FILE'),
+		key: readRequiredSslFile('SSL_KEY_FILE')
+	};
+}
+
+const https = getHttpsConfig();
 
 export default defineConfig({
 	build: {
 		chunkSizeWarningLimit: 850
+	},
+	server: {
+		https
+	},
+	preview: {
+		https
 	},
 	plugins: [
 		tailwindcss(),

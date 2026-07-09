@@ -2,6 +2,44 @@
 
 This document defines the 10 best practices for writing E2E tests in Crumbs. All tests use Playwright with Gherkin-style BDD comments.
 
+## Running E2E tests
+
+The default E2E path uses HTTP and is unchanged:
+
+```bash
+pnpm test:e2e
+```
+
+Optional HTTPS is available for testing browser-only secure-context behavior. Use a trusted local certificate for real browser testing so the browser does not show certificate warnings. With `mkcert`:
+
+```bash
+mkdir -p certs
+mkcert -install
+mkcert -cert-file certs/localhost.pem -key-file certs/localhost-key.pem localhost 127.0.0.1 ::1
+```
+
+Run Playwright against HTTPS:
+
+```bash
+E2E_SSL=true \
+SSL_ENABLED=true \
+SSL_CERT_FILE=./certs/localhost.pem \
+SSL_KEY_FILE=./certs/localhost-key.pem \
+pnpm test:e2e
+```
+
+For manual testing in a normal browser:
+
+```bash
+SSL_ENABLED=true \
+SSL_CERT_FILE=./certs/localhost.pem \
+SSL_KEY_FILE=./certs/localhost-key.pem \
+ORIGIN=https://localhost:5173 \
+pnpm dev
+```
+
+Open `https://localhost:5173`. If you intentionally use an untrusted/self-signed certificate for Playwright only, add `E2E_SSL_INSECURE=true` to ignore certificate errors. Do not use that as the real-browser testing path.
+
 ## 1. Declarative scenarios, not imperative scripts
 
 Describe **what** the system does, not **how** the user clicks through the UI.
