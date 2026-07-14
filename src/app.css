@@ -39,6 +39,21 @@
 	--card-shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
+html {
+	color-scheme: light;
+	background-color: var(--bg-base);
+}
+
+html[data-theme="dark"] {
+	color-scheme: dark;
+}
+
+body {
+	margin: 0;
+	padding-top: env(safe-area-inset-top);
+	background-color: var(--bg-base);
+}
+
 html, body {
 	font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 	accent-color: var(--primary);
