@@ -94,7 +94,7 @@
 			placeholder="Search crumbs..."
 			bind:value={query}
 			oninput={handleSearch}
-			class="w-full bg-transparent text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)]"
+			class="w-full bg-transparent text-base md:text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)]"
 			data-testid="search-input"
 		/>
 		{#if query}

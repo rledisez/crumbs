@@ -332,7 +332,7 @@
 							}
 						});
 					}}
-					class="flex-1 min-w-0 bg-transparent text-sm outline-none break-words {item.checked ? 'text-[var(--text-muted)] line-through' : 'text-[var(--text)]'}"
+					class="flex-1 min-w-0 bg-transparent text-base md:text-sm outline-none break-words {item.checked ? 'text-[var(--text-muted)] line-through' : 'text-[var(--text)]'}"
 					data-placeholder="List item"
 					aria-placeholder="List item"
 					data-testid="checklist-input"
