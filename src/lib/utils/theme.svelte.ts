@@ -1,7 +1,8 @@
 import { browser } from '$app/environment';
 
-const LIGHT_THEME_COLOR = '#f0e6d3';
-const DARK_THEME_COLOR = '#1a1715';
+const LIGHT_THEME_COLOR = '#f5f5f7';
+const DARK_THEME_COLOR = '#1c1c1e';
+const DARK_THEME_MEDIA = '(prefers-color-scheme: dark)';
 
 let darkMode = $state(false);
 
@@ -35,8 +36,14 @@ export function applyTheme(theme: 'system' | 'light' | 'dark'): void {
 		document.documentElement.removeAttribute('data-theme');
 	}
 
-	const meta = document.querySelector('meta[name="theme-color"]');
-	if (meta) {
-		meta.setAttribute('content', isDark ? DARK_THEME_COLOR : LIGHT_THEME_COLOR);
-	}
+	const themeColorMetas = document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]');
+	themeColorMetas.forEach((meta) => {
+		if (theme === 'system') {
+			const color =
+				meta.getAttribute('media') === DARK_THEME_MEDIA ? DARK_THEME_COLOR : LIGHT_THEME_COLOR;
+			meta.setAttribute('content', color);
+		} else {
+			meta.setAttribute('content', isDark ? DARK_THEME_COLOR : LIGHT_THEME_COLOR);
+		}
+	});
 }

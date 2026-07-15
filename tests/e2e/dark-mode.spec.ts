@@ -57,6 +57,18 @@ test.describe.serial('Dark mode', () => {
 
 		// Then the page applies dark theme from system preference
 		await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+		await expect(
+			page.locator('meta[name="theme-color"][media="(prefers-color-scheme: light)"]')
+		).toHaveAttribute('content', '#f5f5f7');
+		await expect(
+			page.locator('meta[name="theme-color"][media="(prefers-color-scheme: dark)"]')
+		).toHaveAttribute('content', '#1c1c1e');
+
+		// When the OS switches to light mode
+		await page.emulateMedia({ colorScheme: 'light' });
+
+		// Then the app and native media-qualified status bar theme can both update
+		await expect(page.locator('html')).not.toHaveAttribute('data-theme');
 	});
 
 	test('Scenario: Note cards use dark colors in dark mode', async ({

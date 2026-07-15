@@ -7,7 +7,8 @@
          Chromium's visualViewport.height can under-report by the nav-bar height. iOS ignores this
          attribute and relies on the visualViewport tracking in NoteEditor instead. -->
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
-    <meta name="theme-color" content="#f5f5f7" />
+    <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1c1c1e" media="(prefers-color-scheme: dark)" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <script>
@@ -16,11 +17,18 @@
           var p = JSON.parse(localStorage.getItem('crumbs-preferences') || '{}');
           var t = p.theme || 'system';
           if (t !== 'light' && t !== 'dark') t = 'system';
-          if (t === 'system') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-          if (t === 'dark') {
+          var isSystem = t === 'system';
+          var isDark = isSystem
+            ? matchMedia('(prefers-color-scheme: dark)').matches
+            : t === 'dark';
+          if (isDark) {
             document.documentElement.setAttribute('data-theme', 'dark');
-            var m = document.querySelector('meta[name="theme-color"]');
-            if (m) m.content = '#1c1c1e';
+          }
+          if (!isSystem) {
+            var color = isDark ? '#1c1c1e' : '#f5f5f7';
+            document.querySelectorAll('meta[name="theme-color"]').forEach(function(m) {
+              m.content = color;
+            });
           }
         } catch(e) {}
       })();

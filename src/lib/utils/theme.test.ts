@@ -6,16 +6,35 @@ vi.mock('$app/environment', () => ({ browser: true }));
 
 describe('applyTheme', () => {
 	let applyTheme: (theme: 'system' | 'light' | 'dark') => void;
+	let prefersDark = false;
+
+	function getThemeColor(media: string): string | null {
+		return document
+			.querySelector<HTMLMetaElement>(`meta[name="theme-color"][media="${media}"]`)
+			?.getAttribute('content') ?? null;
+	}
 
 	beforeEach(async () => {
 		// Reset DOM
 		document.documentElement.removeAttribute('data-theme');
-		const meta = document.querySelector('meta[name="theme-color"]');
-		if (meta) meta.remove();
-		const metaEl = document.createElement('meta');
-		metaEl.setAttribute('name', 'theme-color');
-		metaEl.setAttribute('content', '#f0e6d3');
-		document.head.appendChild(metaEl);
+		document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => meta.remove());
+		document.head.insertAdjacentHTML(
+			'beforeend',
+			'<meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">' +
+				'<meta name="theme-color" content="#1c1c1e" media="(prefers-color-scheme: dark)">'
+		);
+		prefersDark = false;
+		Object.defineProperty(window, 'matchMedia', {
+			configurable: true,
+			writable: true,
+			value: vi.fn().mockImplementation((query: string) => ({
+				matches: query === '(prefers-color-scheme: dark)' && prefersDark,
+				media: query,
+				addEventListener: vi.fn(),
+				removeEventListener: vi.fn(),
+				dispatchEvent: vi.fn()
+			}))
+		});
 
 		// Reset module state
 		vi.resetModules();
@@ -34,17 +53,24 @@ describe('applyTheme', () => {
 		expect(document.documentElement.hasAttribute('data-theme')).toBe(false);
 	});
 
-	it('updates meta theme-color for dark mode', () => {
+	it('sets both theme colors to dark for an explicit dark theme', () => {
 		applyTheme('dark');
-		const meta = document.querySelector('meta[name="theme-color"]');
-		expect(meta?.getAttribute('content')).toBe('#1a1715');
+		expect(getThemeColor('(prefers-color-scheme: light)')).toBe('#1c1c1e');
+		expect(getThemeColor('(prefers-color-scheme: dark)')).toBe('#1c1c1e');
 	});
 
-	it('updates meta theme-color for light mode', () => {
+	it('sets both theme colors to light for an explicit light theme', () => {
 		applyTheme('dark');
 		applyTheme('light');
-		const meta = document.querySelector('meta[name="theme-color"]');
-		expect(meta?.getAttribute('content')).toBe('#f0e6d3');
+		expect(getThemeColor('(prefers-color-scheme: light)')).toBe('#f5f5f7');
+		expect(getThemeColor('(prefers-color-scheme: dark)')).toBe('#f5f5f7');
+	});
+
+	it('restores native light and dark colors for the system theme', () => {
+		applyTheme('dark');
+		applyTheme('system');
+		expect(getThemeColor('(prefers-color-scheme: light)')).toBe('#f5f5f7');
+		expect(getThemeColor('(prefers-color-scheme: dark)')).toBe('#1c1c1e');
 	});
 
 	it('falls back to system for unknown values', () => {
@@ -54,16 +80,7 @@ describe('applyTheme', () => {
 	});
 
 	it('resolves system preference to dark when prefers-color-scheme is dark', () => {
-		Object.defineProperty(window, 'matchMedia', {
-			writable: true,
-			value: vi.fn().mockImplementation((query: string) => ({
-				matches: query === '(prefers-color-scheme: dark)',
-				media: query,
-				addEventListener: vi.fn(),
-				removeEventListener: vi.fn(),
-				dispatchEvent: vi.fn()
-			}))
-		});
+		prefersDark = true;
 		applyTheme('system');
 		expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
 	});
