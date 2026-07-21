@@ -38,16 +38,16 @@
 {#if open}
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
-		class="fixed inset-0 top-16 z-10 bg-black/30 lg:hidden"
+		class="fixed inset-x-0 bottom-0 top-[calc(4rem+env(safe-area-inset-top))] z-10 bg-black/30 lg:hidden"
 		onclick={onClose}
 		onkeydown={(e) => { if (e.key === 'Escape') onClose?.(); }}
 	></div>
 {/if}
 
 <aside
-	class="fixed left-0 top-16 z-20 h-[calc(100vh-4rem)] w-64 transform border-r border-[var(--border-subtle)] bg-[var(--bg-surface)]/80 backdrop-blur-md transition-transform duration-200 {open ? 'translate-x-0' : '-translate-x-full'}"
+	class="fixed left-0 top-[calc(4rem+env(safe-area-inset-top))] z-20 flex h-[calc(100dvh-4rem-env(safe-area-inset-top))] w-64 transform flex-col border-r border-[var(--border-subtle)] bg-[var(--bg-surface)]/80 backdrop-blur-md transition-transform duration-200 {open ? 'translate-x-0' : '-translate-x-full'}"
 >
-	<nav class="p-2">
+	<nav class="min-h-0 flex-1 overflow-y-auto p-2">
 		<ul class="space-y-1">
 			{#each navItems as item}
 				<li>
@@ -83,7 +83,7 @@
 			</div>
 		{/if}
 	</nav>
-	<div class="absolute bottom-0 left-0 w-full border-t border-[var(--border-subtle)] p-2">
+	<div class="shrink-0 border-t border-[var(--border-subtle)] p-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))]">
 		<a
 			href="/settings"
 			class="flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-left text-sm font-medium transition-colors {$page.url.pathname.startsWith('/settings') ? 'bg-[var(--primary)]/10 text-[var(--primary)]' : 'text-[var(--text)] hover:bg-[var(--bg-base)]/60'}"
