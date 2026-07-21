@@ -1,4 +1,5 @@
 import { test, expect, noteCard, createNote } from './helpers/fixtures.js';
+import { devices } from '@playwright/test';
 
 test.describe('Notes CRUD', () => {
 	test('Scenario: New note appears in the notes list after creation', async ({ authenticatedPage: page }) => {
@@ -68,5 +69,36 @@ test.describe('Notes CRUD', () => {
 
 		// Then the note is no longer visible
 		await expect(page.getByText('Delete Me')).not.toBeVisible();
+	});
+});
+
+test.describe('Note links on mobile', () => {
+	const pixel7 = devices['Pixel 7'];
+	test.use({
+		viewport: pixel7.viewport,
+		userAgent: pixel7.userAgent,
+		deviceScaleFactor: pixel7.deviceScaleFactor,
+		isMobile: pixel7.isMobile,
+		hasTouch: pixel7.hasTouch
+	});
+
+	test('Scenario: Tapping a note preview link navigates on the first tap', async ({ authenticatedPage: page }) => {
+		// Given a regular note contains a link in its preview
+		const response = await page.request.post('/api/notes', {
+			data: { title: 'Mobile Link', content: '[Open archive](/archive)' }
+		});
+		expect(response.ok()).toBe(true);
+		await page.reload();
+		await page.waitForLoadState('networkidle');
+
+		const link = noteCard(page, 'Mobile Link').getByRole('link', { name: 'Open archive' });
+		await expect(link).toBeVisible();
+
+		// When the link is tapped once
+		await link.tap();
+
+		// Then the link navigates without opening the note editor
+		await expect(page).toHaveURL(/\/archive$/);
+		await expect(page.getByTestId('note-editor')).toHaveCount(0);
 	});
 });

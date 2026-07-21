@@ -68,14 +68,28 @@
 		};
 	}
 
+	const interactiveElementSelector = 'a, button, input, textarea, select, label, summary, [contenteditable="true"]';
+
+	function isInteractiveTarget(target: EventTarget | null): boolean {
+		return target instanceof Element && target.closest(interactiveElementSelector) !== null;
+	}
+
+	function handleCardClick(e: MouseEvent) {
+		if (!isInteractiveTarget(e.target)) onEdit(note);
+	}
+
+	function handleCardKeydown(e: KeyboardEvent) {
+		if (e.key === 'Enter' && !isInteractiveTarget(e.target)) onEdit(note);
+	}
+
 </script>
 
 <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
 <article
 	class="group relative cursor-pointer rounded-xl max-sm:rounded-none border border-[var(--border-subtle)] max-sm:border-x-0 max-sm:border-t-0 p-4 outline-none transition-all shadow-[var(--card-shadow)] max-sm:shadow-none hover:shadow-[var(--card-shadow-hover)] max-sm:hover:shadow-none max-h-[17rem] overflow-hidden {fullHeight ? 'h-full' : ''}"
 	style={cardStyle}
-	onclick={() => onEdit(note)}
-	onkeydown={(e) => e.key === 'Enter' && onEdit(note)}
+	onclick={handleCardClick}
+	onkeydown={handleCardKeydown}
 	role="button"
 	tabindex="0"
 	data-testid="note-card"
@@ -146,10 +160,7 @@
 
 	{#if !prefs.hidePreviews || !note.title}
 		{#if note.checklistMode && checklistItems.length > 0}
-			<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-			<ul class="space-y-2 mb-6" data-testid="note-checklist-preview"
-				onclick={(e) => { if ((e.target as HTMLElement).closest('a')) e.stopPropagation(); }}
-				onkeydown={(e) => { if ((e.target as HTMLElement).closest('a')) e.stopPropagation(); }}>
+			<ul class="space-y-2 mb-6" data-testid="note-checklist-preview">
 				{#each sortedChecklistItems.slice(0, prefs.hidePreviews ? 1 : 8) as item}
 					<li class="flex items-start gap-2 text-sm {item.indented ? 'pl-4 ' : ''}{item.checked ? 'text-[var(--text-muted)] line-through' : 'text-[var(--text)]'}"
 						data-testid={item.indented ? 'card-checklist-child' : undefined}>
@@ -249,4 +260,3 @@
 		<ImageLightbox src={lightboxSrc} alt={lightboxAlt} onClose={() => lightboxSrc = null} />
 	{/if}
 </article>
-
