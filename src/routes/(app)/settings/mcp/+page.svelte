@@ -131,7 +131,7 @@ ${mcpJsonConfig}`);
 			type="text"
 			bind:value={newKeyName}
 			placeholder="Key name (e.g. Claude Code)"
-			class="flex-1 rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-3 py-2 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
+			class="flex-1 rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-3 py-2 text-base md:text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
 			data-testid="api-key-name-input"
 		/>
 		<button

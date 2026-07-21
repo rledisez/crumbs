@@ -68,7 +68,7 @@
 			type="email"
 			bind:value={email}
 			placeholder="Email"
-			class="mb-3 w-full rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-3 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
+			class="mb-3 w-full rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-3 text-base md:text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
 			data-testid="email-input"
 			required
 		/>
@@ -77,7 +77,7 @@
 			type="password"
 			bind:value={password}
 			placeholder="Password"
-			class="mb-4 w-full rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-3 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
+			class="mb-4 w-full rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-3 text-base md:text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
 			data-testid="password-input"
 			required
 		/>

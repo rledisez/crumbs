@@ -237,7 +237,7 @@
 					type="text"
 					placeholder="Search users..."
 					bind:value={searchQuery}
-					class="w-full rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-base)] py-2 pl-8 pr-3 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
+					class="w-full rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-base)] py-2 pl-8 pr-3 text-base md:text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
 					data-testid="share-search-input"
 				/>
 			</div>

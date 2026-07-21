@@ -131,13 +131,13 @@
 				type="email"
 				bind:value={newEmail}
 				placeholder="Email"
-				class="w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-2 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
+				class="w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-2 text-base md:text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
 			/>
 			<input
 				type="text"
 				bind:value={newDisplayName}
 				placeholder="Display name (optional)"
-				class="w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-2 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
+				class="w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-2 text-base md:text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
 			/>
 			<label class="flex items-center gap-2 text-sm text-[var(--text)]">
 				<input type="checkbox" bind:checked={oauthOnly} />
@@ -148,13 +148,13 @@
 					type="password"
 					bind:value={newPassword}
 					placeholder="Password (min 8 characters)"
-					class="w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-2 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
+					class="w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-2 text-base md:text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
 				/>
 				<PasswordStrengthMeter password={newPassword} />
 			{/if}
 			<select
 				bind:value={newRole}
-				class="w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-2 text-sm text-[var(--text)] outline-none focus:border-[var(--primary)]"
+				class="w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-2 text-base md:text-sm text-[var(--text)] outline-none focus:border-[var(--primary)]"
 			>
 				<option value="user">User</option>
 				<option value="admin">Admin</option>

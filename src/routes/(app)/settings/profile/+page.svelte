@@ -193,7 +193,7 @@
 				id="display-name"
 				type="text"
 				bind:value={displayName}
-				class="w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-2 text-sm text-[var(--text)] outline-none focus:border-[var(--primary)]"
+				class="w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-2 text-base md:text-sm text-[var(--text)] outline-none focus:border-[var(--primary)]"
 			/>
 		</div>
 		<div>
@@ -202,7 +202,7 @@
 				id="email"
 				type="email"
 				bind:value={email}
-				class="w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-2 text-sm text-[var(--text)] outline-none focus:border-[var(--primary)]"
+				class="w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-2 text-base md:text-sm text-[var(--text)] outline-none focus:border-[var(--primary)]"
 			/>
 		</div>
 		<button
@@ -229,20 +229,20 @@
 			type="password"
 			bind:value={currentPassword}
 			placeholder="Current password"
-			class="w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-2 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
+			class="w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-2 text-base md:text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
 		/>
 		<input
 			type="password"
 			bind:value={newPassword}
 			placeholder="New password (min 8 characters)"
-			class="w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-2 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
+			class="w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-2 text-base md:text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
 		/>
 		<PasswordStrengthMeter password={newPassword} />
 		<input
 			type="password"
 			bind:value={confirmNewPassword}
 			placeholder="Confirm new password"
-			class="w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-2 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
+			class="w-full rounded-sm border border-[var(--border-subtle)] bg-[var(--bg-base)] px-4 py-2 text-base md:text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--primary)]"
 		/>
 		<button
 			onclick={changePassword}
@@ -333,7 +333,7 @@
 					type="password"
 					bind:value={deletePassword}
 					placeholder="Enter your password to confirm"
-					class="flex-1 rounded-sm border border-[var(--error-border)] bg-[var(--bg-base)] px-3 py-2 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--destructive)]"
+					class="flex-1 rounded-sm border border-[var(--error-border)] bg-[var(--bg-base)] px-3 py-2 text-base md:text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--destructive)]"
 				/>
 				<button
 					onclick={deleteAccount}
