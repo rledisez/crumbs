@@ -194,14 +194,30 @@ export async function createNote(note: NoteCreate): Promise<Note | null> {
 	}
 }
 
-export async function updateNote(id: string, updates: NoteUpdate): Promise<Note | null> {
-	// Read current version for 3-way merge base on the server
-	let baseVersion: number | undefined;
-	notes.update((list) => {
-		const current = list.find((n) => n.id === id);
-		if (current) baseVersion = current.version;
-		return list;
-	});
+export interface UpdateNoteOptions {
+	/**
+	 * Version of the note content the caller actually edited. Editors should
+	 * provide this explicitly because background sync can advance the store
+	 * without updating an already-open editor document.
+	 */
+	baseVersion?: number;
+}
+
+export async function updateNote(
+	id: string,
+	updates: NoteUpdate,
+	options: UpdateNoteOptions = {}
+): Promise<Note | null> {
+	// Non-editor actions operate on the current store state, while an open editor
+	// supplies the version its document was actually based on.
+	let baseVersion = options.baseVersion;
+	if (baseVersion === undefined) {
+		notes.update((list) => {
+			const current = list.find((n) => n.id === id);
+			if (current) baseVersion = current.version;
+			return list;
+		});
+	}
 
 	try {
 		const res = await fetch(`/api/notes/${id}`, {

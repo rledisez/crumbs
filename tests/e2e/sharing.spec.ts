@@ -1,5 +1,5 @@
 import { test, expect, noteCard } from './helpers/fixtures.js';
-import type { Page } from '@playwright/test';
+import { devices, type Page } from '@playwright/test';
 
 /**
  * Create a note via API and share it with the collaborator.
@@ -183,5 +183,67 @@ test.describe('Note Sharing', () => {
 		await page.reload();
 		await page.waitForLoadState('networkidle');
 		await expect(noteCard(page, 'Leave Test Note')).toBeVisible();
+	});
+});
+
+test.describe('Concurrent editing on mobile', () => {
+	const pixel7 = devices['Pixel 7'];
+	test.use({
+		viewport: pixel7.viewport,
+		userAgent: pixel7.userAgent,
+		deviceScaleFactor: pixel7.deviceScaleFactor,
+		isMobile: pixel7.isMobile,
+		hasTouch: pixel7.hasTouch
+	});
+
+	test('Scenario: An open editor preserves a concurrent checkbox edit after background sync', async ({
+		authenticatedPage: page,
+		collabPage
+	}) => {
+		// Given the owner opened a regular note containing task-list checkboxes
+		const note = await createSharedNote(
+			page,
+			collabPage,
+			'Concurrent Checkbox Test',
+			'- [ ] Milk\n- [ ] Bread'
+		);
+		await page.reload();
+		await page.waitForLoadState('networkidle');
+		await noteCard(page, 'Concurrent Checkbox Test').click();
+
+		const checkboxes = page
+			.getByTestId('tiptap-editor')
+			.locator('input[type="checkbox"]');
+		await expect(checkboxes).toHaveCount(2);
+
+		// And the collaborator checks Bread while the owner's editor remains open
+		await collabPage.request.patch(`/api/notes/${note.id}`, {
+			data: {
+				content: '- [ ] Milk\n- [x] Bread',
+				baseVersion: note.version
+			}
+		});
+
+		// And background sync refreshes the owner's global note state. The open
+		// editor intentionally still contains the document the owner originally saw.
+		await Promise.all([
+			page.waitForResponse((response) =>
+				response.url().includes('/api/notes?filter=all')
+				&& response.request().method() === 'GET'
+			),
+			page.evaluate(() => window.dispatchEvent(new Event('online')))
+		]);
+		await expect(checkboxes.nth(1)).not.toBeChecked();
+
+		// When the owner checks Milk in the stale editor and saves
+		await checkboxes.nth(0).tap();
+		await page.getByRole('button', { name: 'Back' }).click();
+		await expect(page.getByTestId('note-editor-overlay')).toHaveCount(0);
+
+		// Then the server must retain both independent checkbox changes.
+		const response = await page.request.get(`/api/notes/${note.id}`);
+		const savedNote: { content: string } = await response.json();
+		expect(savedNote.content).toContain('- [x] Milk');
+		expect(savedNote.content).toContain('- [x] Bread');
 	});
 });

@@ -19,7 +19,7 @@
 	import { getIsDarkMode } from '$lib/utils/theme.svelte.js';
 	import { getPreferences } from '$lib/stores/preferences.svelte.js';
 	import type { Editor } from '@tiptap/core';
-	import type { Note, NoteColor, Attachment, Collaborator } from '$lib/types/index.js';
+	import type { Note, NoteColor, NoteUpdate, Attachment, Collaborator } from '$lib/types/index.js';
 	import Palette from 'lucide-svelte/icons/palette';
 	import SquareCheck from 'lucide-svelte/icons/square-check';
 	import ImageIcon from 'lucide-svelte/icons/image';
@@ -36,6 +36,7 @@
 	import Archive from 'lucide-svelte/icons/archive';
 	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
 	import { parseChecklist, serializeChecklist } from '$lib/utils/checklist.js';
+	import { mergeContent } from '$lib/utils/content-merge.js';
 	import { tooltip } from '$lib/utils/tooltip.js';
 
 	interface Props {
@@ -69,6 +70,10 @@
 	let noteId = $state<string | null>(note?.id ?? null);
 	// svelte-ignore state_referenced_locally
 	let currentlyNew = $state(isNew);
+	// The revision this editor document is based on. Background sync may advance
+	// the notes store while this component intentionally keeps its open document.
+	// svelte-ignore state_referenced_locally
+	let editorBaseVersion = $state(note?.version);
 
 	// Auto-save: track last-saved state to detect real changes
 	let lastSavedTitle = note?.title ?? '';
@@ -91,6 +96,57 @@
 		);
 	}
 
+	function changedFields(snap: {
+		title: string;
+		content: string;
+		color: NoteColor;
+		checklistMode: boolean;
+	}): NoteUpdate {
+		const updates: NoteUpdate = {};
+		if (snap.title !== lastSavedTitle) updates.title = snap.title;
+		if (snap.content !== lastSavedContent) updates.content = snap.content;
+		if (snap.color !== lastSavedColor) updates.color = snap.color;
+		if (snap.checklistMode !== lastSavedChecklistMode) {
+			updates.checklistMode = snap.checklistMode;
+		}
+		return updates;
+	}
+
+	function rebaseAfterSave(
+		snap: {
+			title: string;
+			content: string;
+			color: NoteColor;
+			checklistMode: boolean;
+		},
+		updated: Note
+	) {
+		// Preserve edits made while the request was in flight. Content needs a
+		// 3-way merge because the server response may itself contain a concurrent
+		// collaborator edit merged into the submitted snapshot.
+		const rebasedContent = content === snap.content
+			? updated.content
+			: mergeContent(snap.content, content, updated.content);
+		const editorDocumentChanged = rebasedContent !== content;
+
+		if (title === snap.title) title = updated.title;
+		content = rebasedContent;
+		if (color === snap.color) color = updated.color;
+		if (checklistMode === snap.checklistMode) checklistMode = updated.checklistMode;
+
+		lastSavedTitle = updated.title;
+		lastSavedContent = updated.content;
+		lastSavedColor = updated.color;
+		lastSavedChecklistMode = updated.checklistMode;
+		editorBaseVersion = updated.version;
+
+		// Tiptap owns an internal document and does not react to its content prop
+		// after mount. Rebase it explicitly only when the server added changes.
+		if (editorDocumentChanged && tiptapEditor) {
+			tiptapEditor.commands.setContent(rebasedContent, { emitUpdate: false });
+		}
+	}
+
 	async function performSave() {
 		if (isSaving) return;
 		// Snapshot current fields to avoid races with user edits during await
@@ -110,18 +166,18 @@
 				if (created) {
 					noteId = created.id;
 					currentlyNew = false;
+					editorBaseVersion = created.version;
 					lastSavedTitle = snap.title;
 					lastSavedContent = snap.content;
 					lastSavedColor = snap.color;
 					lastSavedChecklistMode = snap.checklistMode;
 				}
 			} else if (noteId) {
-				const updated = await updateNote(noteId, snap);
+				const updated = await updateNote(noteId, changedFields(snap), {
+					baseVersion: editorBaseVersion
+				});
 				if (updated) {
-					lastSavedTitle = snap.title;
-					lastSavedContent = snap.content;
-					lastSavedColor = snap.color;
-					lastSavedChecklistMode = snap.checklistMode;
+					rebaseAfterSave(snap, updated);
 				}
 			}
 		} finally {
