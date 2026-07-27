@@ -52,7 +52,7 @@
 
 <div class="w-full max-w-sm rounded-sm border border-[var(--border)] bg-[var(--bg-surface)] p-8 shadow-[var(--card-shadow)]">
 	<div class="mb-6 text-center">
-		<img src="/favicon.svg" alt="Crumbs" class="mx-auto h-12 w-12" />
+		<img src="/favicon-96x96.png" alt="Crumbs" class="mx-auto h-12 w-12" />
 		<h1 class="font-['Press_Start_2P'] text-xl text-[var(--primary)]">Crumbs</h1>
 		<p class="mt-2 text-sm text-[var(--text-muted)]">Sign in to continue</p>
 	</div>

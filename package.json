@@ -14,6 +14,7 @@
   "scripts": {
     "dev": "vite dev",
     "build": "npx tsx scripts/generate-openapi.ts && vite build",
+    "check:assets": "tsx scripts/check-static-assets.ts",
     "openapi": "npx tsx scripts/generate-openapi.ts",
     "preview": "vite preview",
     "prepare": "svelte-kit sync || echo ''",

@@ -41,6 +41,11 @@ export default defineConfig({
 			},
 			workbox: {
 				globPatterns: ['client/**/*.{js,css,ico,png,svg,webp,woff,woff2}'],
+				globIgnores: [
+					'client/pwa-*.png',
+					'client/apple-touch-icon.png',
+					'client/favicon.ico'
+				],
 				navigateFallback: null,
 				runtimeCaching: [
 					{
